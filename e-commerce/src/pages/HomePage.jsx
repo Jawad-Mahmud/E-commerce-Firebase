@@ -92,6 +92,9 @@ const totalCartedPrice =()=>{
   const openSideBar = () => setShowSideBar(true);
   return(
   <Layout>
+    <div>
+      <input type="text" placeholder='search here..'/>
+    </div>
     <p>{profile?.name}</p>
   <div>
     {

@@ -33,6 +33,19 @@ export const ProductCard = ({ product,openSideBar,addToCart }) => {
         >
           Add to Cart
         </button>
+                <button
+          className="mt-3 w-full px-3 py-2 bg-black text-white text-sm rounded hover:bg-gray-700 shadow-2xl"
+          onClick={()=>
+          { 
+            addToCart(product);
+            openSideBar();
+          }
+          }
+
+        >
+         Order
+        </button>
+        
       </div>
 
     
