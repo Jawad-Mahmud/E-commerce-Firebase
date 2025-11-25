@@ -7,6 +7,8 @@ import { useGetProducts } from '../hooks/useGetProducts'
 import { CartSidebar } from '../components/Sidebar/CartSidebar'
 import { useAuth } from '../context/AuthProvider'
 import { useGetUserProfile } from '../hooks/useGetUserProfile'
+import { SearchBar } from '../components/SearchBar/SearchBar'
+
 export const HomePage = () => {
 
   const {user,loading} = useAuth();
@@ -93,7 +95,7 @@ const totalCartedPrice =()=>{
   return(
   <Layout>
     <div>
-      <input type="text" placeholder='search here..'/>
+      <SearchBar/>
     </div>
     <p>{profile?.name}</p>
   <div>
