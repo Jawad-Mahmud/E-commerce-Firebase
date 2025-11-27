@@ -48,16 +48,18 @@ export const ProductDetails = () => {
         </p>
 
         {/* Buttons */}
-        <div className="flex flex-col sm:flex-row gap-8 mt-6">
-          <button className="bg-black text-amber-50 w-36 h-10 rounded-xl shadow-md 
-                             hover:bg-gray-800 transition-colors duration-200">
-            Add to cart
-          </button>
-          <button className="bg-blue-600 text-amber-50 w-36 h-10 rounded-xl shadow-md 
-                             hover:bg-blue-700 transition-colors duration-200">
-            Buy Now
-          </button>
-        </div>
+<div className="flex flex-col sm:flex-row gap-8 mt-6 
+                items-center justify-center w-full">
+  <button className="bg-black text-amber-50 w-36 h-10 rounded-xl shadow-md 
+                     hover:bg-gray-800 transition-colors duration-200">
+    Add to cart
+  </button>
+  <button className="bg-blue-600 text-amber-50 w-36 h-10 rounded-xl shadow-md 
+                     hover:bg-blue-700 transition-colors duration-200">
+    Buy Now
+  </button>
+</div>
+
 
         {/* Product Features */}
         <div className="mt-8 space-y-3 text-gray-700 font-medium">
