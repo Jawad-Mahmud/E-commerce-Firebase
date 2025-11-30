@@ -4,8 +4,11 @@ import { db } from '../../firebase-config/firebase'
 import { data, Link } from 'react-router-dom'
 import { useGetProducts } from '../../hooks/useGetProducts'
 import { useDeleteProducts } from '../../hooks/useDeleteProducts'
-
+import { useCart } from '../../context/CartProvider'
 export const AdminPanel = () => {
+  
+  const {cartedItems} = useCart();
+  console.log(cartedItems);
   const { products } = useGetProducts();
   const {deleteProduct} = useDeleteProducts();
   

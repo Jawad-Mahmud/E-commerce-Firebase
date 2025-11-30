@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CartSidebar } from '../Sidebar/CartSidebar';
-
+import { useCart } from '../../context/CartProvider';
 export const ProductCard = ({ product,openSideBar,addToCart }) => {
   return (
     <>

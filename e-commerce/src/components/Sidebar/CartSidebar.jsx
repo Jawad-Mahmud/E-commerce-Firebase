@@ -2,7 +2,7 @@ import React from "react";
 
 export const CartSidebar = ({ showSidebar, cartedItems, cartedNumber,removeFromCart,closeSideBar,totalCartedPrice }) => {
   if (!showSidebar) return null;
-
+   
   return (
     <div className="fixed top-0 right-0 w-80 h-screen bg-gray-100 p-5 shadow-lg flex flex-col" >
       {/* Header */}

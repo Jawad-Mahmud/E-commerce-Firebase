@@ -8,13 +8,13 @@ import { CartSidebar } from '../components/Sidebar/CartSidebar'
 import { useAuth } from '../context/AuthProvider'
 import { useGetUserProfile } from '../hooks/useGetUserProfile'
 import { SearchBar } from '../components/SearchBar/SearchBar'
-
+import { AdminPanel } from './AdminPanel/AdminPanel'
+import { useCart } from '../context/CartProvider'
 export const HomePage = () => {
-
+   const {addToCart,removeFromCart,cartedNumber,totalCartedPrice,cartedItems} = useCart();
   const {user,loading} = useAuth();
  const {products} = useGetProducts();
  const [showSideBar, setShowSideBar] = useState(false);
-const [cartedItems, setCartedItems] = useState([])
 const  [profile, setProfile] = useState(null)
 useEffect(() => {
  const loadProfile = async()=>{
@@ -24,72 +24,7 @@ setProfile(theProfile);
  }
  loadProfile();
 }, [])
-
-useEffect(() => {
-    const savedCart = JSON.parse(localStorage.getItem("cartItems"));
-    if(savedCart) setCartedItems(savedCart);
-}, []);
-
-const removeFromCart= (idToDelete) =>{
-   const presentCarted = cartedItems.filter((items)=>(items.id != idToDelete))
-   setCartedItems(presentCarted);
-}
-
-  const cartedNumber = (checkId,type) =>{
-   const updateCarted = cartedItems.map((item)=>{
-      if(item.id===checkId){
-        if(type==="increase"){
-            return {...item,cartedQuantity:item.cartedQuantity+1}
-
-        }
-        else{
-           return { ...item, cartedQuantity: Math.max(item.cartedQuantity -1,0) }
-
-        }
-      }
-      return item;
-  })
-  setCartedItems(updateCarted)
-  }
-
-
-const addToCart = (product) => {
-  setCartedItems((prevItems) => {
-    const existingItem = prevItems.find(item => item.id === product.id);
-
-    if (existingItem ) {
-      return prevItems.map(item =>
-        item.id === product.id 
-          ? { ...item}
-          : item
-      );
-    } else {
-      return [...prevItems, { ...product, cartedQuantity: 1 }];
-    }
-  });
-};
-useEffect(() => {
-  
-  localStorage.setItem("cartItems",JSON.stringify(cartedItems))
-
  
-}, [cartedItems]);
-
-const totalCartedPrice =()=>{
-  
-  let total = 0;
-  cartedItems.forEach((item)=>{
-  total = total + item.price * item.cartedQuantity
-  }
-    
-  )
-  return total ;
-
-}
-
-
-
-  
   const closeSideBar = () => setShowSideBar(false)
   const openSideBar = () => setShowSideBar(true);
   return(
@@ -115,8 +50,9 @@ const totalCartedPrice =()=>{
          totalCartedPrice={totalCartedPrice} />
     
   </div>
-
+   
   </Layout>
+
   )
     
   
