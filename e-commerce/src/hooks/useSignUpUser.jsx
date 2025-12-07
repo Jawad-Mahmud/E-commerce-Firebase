@@ -3,8 +3,9 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase-config/firebase';
 import { useNavigate } from 'react-router-dom';
-
+import { useUserActivity } from './useUserActivity';
 export const useSignUpUser = () => {
+  const {updateUserActivity} = useUserActivity();
   const navigate = useNavigate()
     const handleSignUp = async(e,email,password,name)=>{
        e.preventDefault();
@@ -19,7 +20,7 @@ export const useSignUpUser = () => {
          createdAt: new Date()
          
 });
-
+            
           alert("You  have successfully created an account");
           navigate("/")
         

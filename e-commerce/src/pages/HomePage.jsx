@@ -24,7 +24,8 @@ setProfile(theProfile);
  }
  loadProfile();
 }, [])
- 
+ console.log("this is profile",profile);
+ console.log("this is user",user);
   const closeSideBar = () => setShowSideBar(false)
   const openSideBar = () => setShowSideBar(true);
   return(

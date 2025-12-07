@@ -50,7 +50,7 @@ export const AdminPanel = () => {
       <td className="px-6 py-4 border">{product.quantity}</td>
       <td className="px-6 py-4 border">{product.price}</td>
 <td className="px-6 py-4 border">
-
+{product.totalCarted}
 </td>
 <td className="px-6 py-4 border">
   <button 

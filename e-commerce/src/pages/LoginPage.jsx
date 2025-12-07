@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { doSignInWithEmailAndPassword } from '../Authentication/auth';
 import { useCheckUserRole } from '../hooks/useCheckUserRole';
 import { useNavigate } from 'react-router-dom';
+
 export const LoginPage = () => {
   const {checkUserRole} = useCheckUserRole();
  const navigate = useNavigate();
@@ -20,6 +21,7 @@ const handleSubmit =async(e)=>{
       alert("admin here");
       navigate("/admin")
     }
+  
 
     else{
       navigate("/")
