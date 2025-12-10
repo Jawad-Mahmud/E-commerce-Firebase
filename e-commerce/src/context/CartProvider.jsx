@@ -87,16 +87,18 @@ export const CartProvider = ({children}) => {
 
 
       if(user && type === "increase"){ 
-        const currentItem = prevItems.find(item => item.id === checkId);
+        const currentItem = updatedCart.find(item => item.id === checkId);
         if(currentItem){
-          totalCarted(currentItem.id, currentItem.cartedQuantity + 1);
+          totalCarted(currentItem.id, currentItem.cartedQuantity);
 
         }
       }
       else if(user && type ==="decrease"){
-        const currentItem = prevItems.find(item => item.id === checkId);
+        const currentItem = updatedCart.find(item => item.id === checkId);
         if(currentItem){
-          totalCarted(currentItem.id, currentItem.cartedQuantity-1 > 0 ? currentItem.cartedQuantity:0);
+          totalCarted(currentItem.id, currentItem.cartedQuantity);
+
+       /*   totalCarted(currentItem.id, currentItem.cartedQuantity-1 > 0 ? currentItem.cartedQuantity:0); */
         }
       }
 
