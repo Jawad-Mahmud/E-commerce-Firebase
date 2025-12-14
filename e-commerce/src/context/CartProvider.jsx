@@ -4,6 +4,7 @@ import { db } from '../firebase-config/firebase';
 import { doc, setDoc } from 'firebase/firestore';
 import { useTotalCarted } from '../hooks/useTotalCarted';
 import { useUserActivity } from '../hooks/useUserActivity';
+import { useGetUserProfile } from '../hooks/useGetUserProfile';
 
 const CartContext = createContext();
 export const useCart = () => useContext(CartContext)
@@ -12,18 +13,29 @@ export const CartProvider = ({children}) => {
   const {user} = useAuth();
   const [cartedItems, setCartedItems] = useState([]);
   const {totalCarted} = useTotalCarted();
-
+const [profile, setProfile] = useState("")
   useEffect(() => {
     const savedCart = JSON.parse(localStorage.getItem("cartItems"));
     if (savedCart) setCartedItems(savedCart);
   }, []);
 
   useEffect(() => {
+   const loadProfile = async()=>{
+    if(!user) return;
+    const theProfile = await useGetUserProfile(user.uid);
+  setProfile(theProfile);
+   }
+   loadProfile();
+  }, [])
+
+console.log("user activity ",profile.name)
+
+  useEffect(() => {
     localStorage.setItem("cartItems", JSON.stringify(cartedItems));
   }, [cartedItems]);
 
   const addToCart = (product) => {
-    setCartedItems((prevItems) => {
+    setCartedItems ((prevItems) => {
       const existingItem = prevItems.find(item => item.id === product.id);
       let updatedCart;
 
@@ -36,7 +48,10 @@ export const CartProvider = ({children}) => {
 
         if (user) {
           totalCarted(product.id, existingItem.cartedQuantity + 1);
-          updateUserActivity({field:{cartedItems:updatedCart}})
+          updateUserActivity ({field:{
+            name:profile?.name,
+            email:profile?.email,
+            cartedItems:updatedCart}})
         }
 
       } else {
@@ -44,6 +59,10 @@ export const CartProvider = ({children}) => {
 
         if (user) {
           totalCarted(product.id, 1);
+          updateUserActivity ({field:{
+            name:profile?.name,
+            email:profile?.email,
+            cartedItems:updatedCart}})
         }
       }
 
@@ -90,6 +109,7 @@ export const CartProvider = ({children}) => {
         const currentItem = updatedCart.find(item => item.id === checkId);
         if(currentItem){
           totalCarted(currentItem.id, currentItem.cartedQuantity);
+            updateUserActivity({field:{cartedItems:updatedCart}})
 
         }
       }
@@ -97,6 +117,7 @@ export const CartProvider = ({children}) => {
         const currentItem = updatedCart.find(item => item.id === checkId);
         if(currentItem){
           totalCarted(currentItem.id, currentItem.cartedQuantity);
+           updateUserActivity({field:{cartedItems:updatedCart}})
 
        /*   totalCarted(currentItem.id, currentItem.cartedQuantity-1 > 0 ? currentItem.cartedQuantity:0); */
         }

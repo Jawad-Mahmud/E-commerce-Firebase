@@ -12,6 +12,7 @@ import { SignupPage } from './pages/SignUpPage'
 import { ProtectRoute } from './routes/ProtectRoute'
 import { ProtectAdminRoute } from './routes/ProtectAdminRoute'
 import { UserProfile } from './pages/UserProfile'
+import { UserActivity } from './pages/AdminPanel/UserActivity'
 
 export const App = () => {
   return (
@@ -43,6 +44,18 @@ export const App = () => {
     </ProtectAdminRoute>
   }
 />
+<Route
+  path="/admin/user-activity"
+  element={
+    <ProtectAdminRoute>
+      <UserActivity/>
+    </ProtectAdminRoute>
+  }
+/>
+
+
+
+
       <Route path = "/profile/:id" element = {<UserProfile/>}/>
       <Route path = "/login" element = {<LoginPage/>}/>
       <Route path = "signup" element ={<SignupPage/>}/>
