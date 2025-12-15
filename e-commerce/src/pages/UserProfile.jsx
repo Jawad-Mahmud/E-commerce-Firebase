@@ -12,17 +12,18 @@ import {
 import { useParams } from 'react-router-dom';
 import { useLogoutUser } from '../hooks/useLogoutUser';
 
+// --- AccountDetails Component (Theming applied) ---
 const AccountDetails = ({ profile }) => (
-  <div className="p-5">
-    <h3 className="text-xl font-semibold text-blue-600 mb-4">Personal Information</h3>
+  <div className="p-5 bg-gray-900 text-gray-100 rounded-lg shadow-lg border border-gray-700">
+    <h3 className="text-xl font-semibold text-yellow-400 mb-4 border-b border-gray-700 pb-2">Personal Information</h3>
 
     {profile ? (
       <>
         <p className="mb-2">
-          <strong className="font-medium">Name:</strong> {profile.name}
+          <strong className="font-medium text-gray-300">Name:</strong> {profile.name}
         </p>
         <p className="mb-2">
-          <strong className="font-medium">Email:</strong> {profile.email}
+          <strong className="font-medium text-gray-300">Email:</strong> {profile.email}
         </p>
       </>
     ) : (
@@ -31,52 +32,62 @@ const AccountDetails = ({ profile }) => (
   </div>
 );
 
+// --- Orders Component (Theming applied) ---
 const Orders = () => (
   <div className="p-5">
-    <h3 className="text-xl font-semibold text-blue-600 mb-4">Recent Orders</h3>
-    <div className="bg-white p-4 rounded-lg shadow-sm mb-3">
-      <p className="font-semibold">#1001 - Delivered</p>
-      <p className="text-sm text-gray-500">Placed on Nov 1, 2025</p>
+    <h3 className="text-xl font-semibold text-yellow-400 mb-4 border-b border-gray-700 pb-2">Recent Orders</h3>
+    
+    {/* Item Card 1: Dark background for elegance */}
+    <div className="bg-gray-800 text-gray-100 p-4 rounded-lg shadow-md mb-3 border border-gray-700">
+      <p className="font-semibold text-lg">#1001 - <span className="text-green-400">Delivered</span></p>
+      <p className="text-sm text-gray-400">Placed on Nov 1, 2025</p>
     </div>
-    <div className="bg-white p-4 rounded-lg shadow-sm">
-      <p className="font-semibold">#1002 - Processing</p>
-      <p className="text-sm text-gray-500">Placed on Nov 15, 2025</p>
+    
+    {/* Item Card 2 */}
+    <div className="bg-gray-800 text-gray-100 p-4 rounded-lg shadow-md border border-gray-700">
+      <p className="font-semibold text-lg">#1002 - <span className="text-yellow-400">Processing</span></p>
+      <p className="text-sm text-gray-400">Placed on Nov 15, 2025</p>
     </div>
   </div>
 );
 
+// --- componentMap (Theming applied to inline components) ---
 const componentMap = {
   account: AccountDetails,
   orders: Orders,
   addresses: () => (
     <div className="p-5">
-      <h3 className="text-xl font-semibold text-blue-600 mb-4">Saved Addresses</h3>
-      <p className="bg-white p-4 rounded-lg shadow-sm">123 Main St, Anytown, USA</p>
+      <h3 className="text-xl font-semibold text-yellow-400 mb-4 border-b border-gray-700 pb-2">Saved Addresses</h3>
+      <p className="bg-gray-800 text-gray-100 p-4 rounded-lg shadow-md border border-gray-700">123 Main St, Anytown, USA</p>
     </div>
   ),
   payment: () => (
     <div className="p-5">
-      <h3 className="text-xl font-semibold text-blue-600 mb-4">Payment Methods</h3>
-      <p className="bg-white p-4 rounded-lg shadow-sm">Visa ending in 4242</p>
+      <h3 className="text-xl font-semibold text-yellow-400 mb-4 border-b border-gray-700 pb-2">Payment Methods</h3>
+      <p className="bg-gray-800 text-gray-100 p-4 rounded-lg shadow-md border border-gray-700">Visa ending in 4242</p>
     </div>
   ),
   settings: () => (
     <div className="p-5">
-      <h3 className="text-xl font-semibold text-blue-600 mb-4">Settings</h3>
-      <p>Notifications <span className="text-green-600 font-semibold">ON</span></p>
+      <h3 className="text-xl font-semibold text-yellow-400 mb-4 border-b border-gray-700 pb-2">Settings</h3>
+      <p className='text-gray-100'>
+        Notifications <span className="text-green-400 font-semibold">ON</span>
+      </p>
     </div>
   ),
 };
 
+// --- UserProfile Component (Theming applied) ---
 export const UserProfile = () => {
   const {handleLogOut} = useLogoutUser()
   const { user } = useAuth();
   const [profile, setProfile] = useState(null);
-  const { uid } = useParams();
+  const { uid } = useParams(); // uid is currently unused but kept for clarity
 
   useEffect(() => {
     const loadProfile = async () => {
       if (!user) return;
+      // NOTE: useGetUserProfile is called as a function here, not a hook.
       const fetchedProfile = await useGetUserProfile(user.uid);
       setProfile(fetchedProfile);
     };
@@ -96,14 +107,14 @@ export const UserProfile = () => {
   const ActiveComponent = componentMap[activeTab];
 
   return (
-    <div className="max-w-7xl mx-auto my-10 bg-white rounded-xl shadow-2xl overflow-hidden">
+    <div className="max-w-7xl mx-auto my-10 bg-gray-900 rounded-xl shadow-2xl shadow-yellow-400/20 overflow-hidden border border-gray-700">
       
       <div className="md:grid md:grid-cols-4 lg:grid-cols-5">
 
         {/* Sidebar */}
-        <div className="col-span-1 border-b md:border-b-0 md:border-r border-gray-200 p-6 bg-white">
+        <div className="col-span-1 border-b md:border-b-0 md:border-r border-gray-700 p-6 bg-gray-900">
 
-          <h2 className="text-2xl font-bold text-blue-600 mb-6 flex items-center">
+          <h2 className="text-2xl font-bold text-yellow-400 mb-6 flex items-center">
             <FaUser className="mr-2" /> My Account
           </h2>
 
@@ -117,8 +128,10 @@ export const UserProfile = () => {
                   flex items-center p-3 text-lg cursor-pointer transition-all duration-200 rounded-lg
                   ${
                     activeTab === item.id
-                      ? 'text-blue-700 bg-blue-50 border-l-4 border-blue-600 font-semibold'
-                      : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
+                      // Active state: Yellow text, subtle gray background, yellow border
+                      ? 'text-yellow-400 bg-gray-800 border-l-4 border-yellow-400 font-semibold'
+                      // Inactive state: Light gray text, dark background, yellow hover
+                      : 'text-gray-300 hover:bg-gray-800 hover:text-yellow-400'
                   }
                 `}
               >
@@ -128,17 +141,16 @@ export const UserProfile = () => {
             ))}
           </nav>
 
-          <div className="flex items-center p-3 text-lg text-gray-600 hover:text-red-600 cursor-pointer mt-8 transition-colors duration-200" onClick={handleLogOut}>
+          {/* Logout Button */}
+          <div className="flex items-center p-3 text-lg text-gray-400 hover:text-red-500 cursor-pointer mt-8 transition-colors duration-200" onClick={handleLogOut}>
             <FaSignOutAlt className="mr-3 text-xl" />
             Log out
-            
           </div>
         </div>
 
         {/* Main Content */}
-        {/* JSX-safe comment */}
-        <div className="md:col-span-3 lg:col-span-4 bg-gray-50 p-6 sm:p-8">
-          <h1 className="text-3xl font-bold text-gray-800 border-b-2 border-blue-500 pb-3 mb-6">
+        <div className="md:col-span-3 lg:col-span-4 bg-gray-800 p-6 sm:p-8 text-gray-100">
+          <h1 className="text-3xl font-bold text-gray-100 border-b-2 border-yellow-400 pb-3 mb-6">
             {navItems.find(item => item.id === activeTab).label}
           </h1>
 
