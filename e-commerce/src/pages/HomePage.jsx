@@ -10,6 +10,7 @@ import { useGetUserProfile } from '../hooks/useGetUserProfile'
 import { SearchBar } from '../components/SearchBar/SearchBar'
 import { AdminPanel } from './AdminPanel/AdminPanel'
 import { useCart } from '../context/CartProvider'
+import HeroBG from "../assests/watch-hero.avif"
 export const HomePage = () => {
    const {addToCart,removeFromCart,cartedNumber,totalCartedPrice,cartedItems} = useCart();
   const {user,loading} = useAuth();
@@ -31,6 +32,9 @@ setProfile(theProfile);
   return(
   <Layout>
     <div>
+      <img src={HeroBG}/>
+    </div>
+    <div className='mt-2'>
       <SearchBar/>
     </div>
     <p>{profile?.name}</p>
