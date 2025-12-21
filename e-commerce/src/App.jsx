@@ -13,7 +13,7 @@ import { ProtectRoute } from './routes/ProtectRoute'
 import { ProtectAdminRoute } from './routes/ProtectAdminRoute'
 import { UserProfile } from './pages/UserProfile'
 import { UserActivity } from './pages/AdminPanel/UserActivity'
-
+import { AdminAddHomeSection } from './pages/AdminPanel/AdminAddHomeSection'
 export const App = () => {
   return (
     <>
@@ -49,6 +49,14 @@ export const App = () => {
   element={
     <ProtectAdminRoute>
       <UserActivity/>
+    </ProtectAdminRoute>
+  }
+/>
+<Route
+  path="/admin/admin-add-home-section"
+  element={
+    <ProtectAdminRoute>
+      <AdminAddHomeSection/>
     </ProtectAdminRoute>
   }
 />
