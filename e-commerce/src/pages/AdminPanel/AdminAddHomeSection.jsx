@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { useAddHomeSection } from '../../hooks/useAddHomeSection';
 import { FiLayout, FiList, FiPlusCircle, FiTrash2, FiType } from 'react-icons/fi';
+import { SearchBar } from '../../components/SearchBar/SearchBar';
+
 
 export const AdminAddHomeSection = () => {
+
     const { addHomeSection } = useAddHomeSection();
     const [items, setItems] = useState([]);
     const [title, setTitle] = useState("");
@@ -33,7 +36,6 @@ export const AdminAddHomeSection = () => {
     return (
         <div className="min-h-screen bg-black flex items-center justify-center p-6">
             <div className="w-full max-w-2xl bg-gray-900 border border-gray-800 shadow-2xl rounded-sm p-8">
-                
                 {/* Header */}
                 <div className="text-center mb-10">
                     <h1 className="text-3xl font-serif font-bold text-white tracking-tight flex items-center justify-center gap-3">
@@ -41,7 +43,7 @@ export const AdminAddHomeSection = () => {
                     </h1>
                     <p className="text-gray-500 text-xs uppercase tracking-widest mt-2">Manage Featured Collections</p>
                 </div>
-
+                   <SearchBar/>
                 <form onSubmit={onSubmit} className="space-y-8">
                     {/* Section Title */}
                     <div>

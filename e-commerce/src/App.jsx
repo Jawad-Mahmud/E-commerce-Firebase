@@ -53,7 +53,7 @@ export const App = () => {
   }
 />
 <Route
-  path="/admin/admin-add-home-section"
+  path="/admin/add-home-section"
   element={
     <ProtectAdminRoute>
       <AdminAddHomeSection/>

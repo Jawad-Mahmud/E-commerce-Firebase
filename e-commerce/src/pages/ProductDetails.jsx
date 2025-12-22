@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { doc, getDoc } from 'firebase/firestore'
 import { Layout } from '../components/Layout/Layout'
 import { FaShippingFast, FaShieldAlt, FaBoxOpen, FaMoneyBillWave,FaInfoCircle } from "react-icons/fa";
+import { useProductId } from '../hooks/useProductId'
 
 
 export const ProductDetails = () => {

@@ -5,9 +5,8 @@ import { data, Link } from 'react-router-dom'
 import { useGetProducts } from '../../hooks/useGetProducts'
 import { useDeleteProducts } from '../../hooks/useDeleteProducts'
 import { useCart } from '../../context/CartProvider'
-import { FiPackage, FiShoppingCart, FiTrendingUp, FiEdit, FiTrash2, FiPlus } from 'react-icons/fi';
+import { FiPackage, FiShoppingCart, FiTrendingUp, FiEdit, FiTrash2, FiPlus,FiLayout } from 'react-icons/fi';
 export const AdminPanel = () => {
-  // --- Logic kept strictly identical ---
   const { cartedItems } = useCart();
   console.log(cartedItems);
   const { products } = useGetProducts();
@@ -82,7 +81,7 @@ export const AdminPanel = () => {
                         </div>
                         <div className="flex flex-col">
                             <span className="font-semibold text-white group-hover:text-yellow-400 transition-colors">{product.name}</span>
-                            <span className="text-[10px] text-gray-500 uppercase tracking-tighter">Ref ID: {product.id.substring(0,8)}</span>
+                            <span className="text-[10px] text-gray-500 uppercase tracking-tighter"> {product.id}</span>
                         </div>
                       </div>
                     </td>
@@ -97,6 +96,13 @@ export const AdminPanel = () => {
                     </td>
                     <td className="px-6 py-4">
                       <div className="flex justify-center space-x-3">
+                         <Link to="/admin/add-home-section" 
+                          className="flex items-center bg-gray-800 text-gray-300 hover:text-yellow-400 hover:bg-gray-700 p-2 rounded-md transition-all border border-gray-700"
+                         >
+                          <FiLayout size={18} />
+                             </Link>
+
+
                         <Link
                           to={`/admin/edit-product/${product.id}`}
                           className="flex items-center bg-gray-800 text-gray-300 hover:text-yellow-400 hover:bg-gray-700 p-2 rounded-md transition-all border border-gray-700"
