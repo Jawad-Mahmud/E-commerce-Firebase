@@ -38,7 +38,7 @@ setProfile(theProfile);
   const closeSideBar = () => setShowSideBar(false)
   const openSideBar = () => setShowSideBar(true);
   return(
-  <Layout>
+ <Layout>
     <div>
       <img src={HeroBG}/>
     </div>
@@ -65,58 +65,106 @@ setProfile(theProfile);
   <div
     className="
       flex 
-      /* Responsive Direction */
-      flex-col           /* Vertical on mobile */
-      sm:flex-row        /* Horizontal on tablet/desktop */
-      
-      /* Centering & Spacing */
-      items-center       /* Centers items along the cross-axis */
-      justify-center     /* Centers items along the main-axis */
-      gap-8 sm:gap-6 
-      
-      /* Horizontal Scroll logic - only active on sm screens and up */
-      sm:overflow-x-auto 
-      sm:snap-x sm:snap-mandatory 
-      scrollbar-thin scrollbar-thumb-yellow-600 scrollbar-track-transparent
-      
-      /* Sizing */
-      w-full max-w-7xl   /* Prevents the section from becoming too wide on ultra-wide screens */
-      mx-auto 
-      py-6
-      animate-fadeIn
+  flex-col 
+  sm:flex-row 
+  items-center 
+  justify-center 
+  gap-8 sm:gap-6 
+  sm:overflow-x-auto 
+  sm:snap-x sm:snap-mandatory 
+  scrollbar-thin scrollbar-thumb-yellow-600 scrollbar-track-transparent 
+  w-full max-w-7xl 
+  mx-auto 
+  py-6 
+  animate-fadeIn
     "
   >
-    {
-      homeProducts.map(section =>
+{
+  homeProducts.map(section => (
+    <div key={section.title} className="mb-10 px-4">
+      <div className='mb-4 text-xl font-serif font-bold tracking-widest uppercase text-yellow-400'>
+        <h1>{section.title}</h1>
+      </div>
+      
+      <div className="
+        /* Mobile/Medium: Vertical Stack */
+        grid grid-cols-1 justify-items-center gap-8
         
-        section.items.map(id => (
-          <div 
-            key={id}
-            className="
-              snap-center 
-              /* Responsive Widths */
-              w-full sm:min-w-[240px] md:min-w-[260px] 
-              max-w-[320px]      /* Prevents cards from being too wide on mobile */
-              
-              /* Luxury Hover Effects */
-              transform transition duration-500 
-              hover:scale-105 
-              sm:hover:-translate-y-2
-            "
-          >
-            <ProductLoader
-              id={id}
-              openSideBar={openSideBar}
-              addToCart={addToCart}
-            />
-          </div>
-        ))
-      )
-    }
+        /* Big Display: Horizontal Row */
+        lg:flex lg:flex-row lg:flex-nowrap 
+        
+        /* FIX THE GAP HERE */
+        lg:gap-4 lg:justify-start 
+        
+        /* Scroll logic */
+        lg:overflow-x-auto hide-scrollbar
+      ">
+        {
+          section.items.map(id => (
+            <div 
+              key={id}
+              /* flex-shrink-0 is vital so cards don't squish */
+              className="flex-shrink-0" 
+            >
+              <ProductLoader
+                id={id}
+                openSideBar={openSideBar}
+                addToCart={addToCart}
+              />
+            </div>
+          ))
+        }
+      </div>
+
+
+    </div>
+  ))
+}
+    
+  </div>
+     
+</div>
+
+
+  <div className="w-full mt-6 flex justify-center px-4"> 
+  <div
+    className="
+      flex 
+      flex-col 
+      items-start 
+      w-full max-w-7xl 
+      mx-auto 
+      py-6 
+      animate-fadeIn
+    "
+  >    
+
+    {/* Title — same structure as section.title */}
+    <div className="mb-10 px-4">
+      <div className='mb-4 text-xl font-serif font-bold tracking-widest uppercase text-yellow-400'>
+        <h1>Our Brands</h1>
+      </div>
+    </div>
+
+    {/* Cards container — same structure */}
+    <div className="
+      grid grid-cols-1 justify-items-center gap-8
+      lg:flex lg:flex-row lg:flex-nowrap 
+      lg:gap-6 
+      lg:overflow-x-auto 
+      hide-scrollbar
+      w-full
+    ">
+      {/* Brands Cards go here */}
+      <div>
+        
+
+      </div>
+    </div>
+
   </div>
 </div>
 
-    
 
   <div>
           <CartSidebar showSidebar={showSideBar} cartedItems={cartedItems}
@@ -124,8 +172,9 @@ setProfile(theProfile);
          totalCartedPrice={totalCartedPrice} />
     
   </div>
-   
-  </Layout>
+</Layout>
+
+
 
   )
     
