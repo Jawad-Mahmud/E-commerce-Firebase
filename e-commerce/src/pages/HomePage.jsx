@@ -14,8 +14,10 @@ import HeroBG from "../assets/watch-hero.avif"
 import { useGetHomeProducts } from '../hooks/useGetHomeSection'
 import { useProductId } from '../hooks/useProductId'
 import { ProductLoader } from '../components/ProductLoader/ProductLoader'
-
+import { HiAdjustments } from "react-icons/hi";
+import { useGetCategory } from '../hooks/useGetCategory'
 export const HomePage = () => {
+  const {filtered,setSelectCategory} = useGetCategory();
   const { individual } = useProductId();
   const { homeProducts } = useGetHomeProducts();
   const { addToCart, removeFromCart, cartedNumber, totalCartedPrice, cartedItems } = useCart();
@@ -23,7 +25,7 @@ export const HomePage = () => {
   const { products } = useGetProducts();
   const [showSideBar, setShowSideBar] = useState(false);
   const [profile, setProfile] = useState(null);
-
+  const[brand,setBrand] = useState([])
   useEffect(() => {
     const loadProfile = async () => {
       if (!user) return;
@@ -32,6 +34,15 @@ export const HomePage = () => {
     };
     loadProfile();
   }, [user]);
+ const clickedCategory = (brand) => {
+  setSelectCategory(prev =>{
+    if(prev.includes(brand)){
+      return prev.filter(item=>item!==brand)
+    }
+    return[...prev,brand]
+  })
+ }
+ 
 
   console.log("this is profile", profile);
   console.log("this products", products);
@@ -51,61 +62,72 @@ export const HomePage = () => {
       </div>
       <p>{profile?.name}</p>
 
-      {/* Home Products Section */}
-      <div className="w-full mt-6 flex justify-center px-4">
-        <div
-          className="
-            flex 
-            flex-col 
-            sm:flex-row 
-            items-center 
-            justify-center 
-            gap-8 sm:gap-6 
-            sm:overflow-x-auto 
-            sm:snap-x sm:snap-mandatory 
-            scrollbar-thin scrollbar-thumb-yellow-600 scrollbar-track-transparent 
-            w-full max-w-7xl 
-            mx-auto 
-            py-6 
-            animate-fadeIn
-          "
-        >
-          {homeProducts.map((section) => (
-            <div key={section.title} className="mb-10 px-4">
-              <div className="mb-4 text-xl font-serif font-bold tracking-widest uppercase text-yellow-400">
-                <h1>{section.title}</h1>
-              </div>
 
-              <div
-                className="
-                  grid grid-cols-1 justify-items-center gap-8
-                  lg:flex lg:flex-row lg:flex-nowrap
-                  lg:gap-4 lg:justify-start
-                  lg:overflow-x-auto hide-scrollbar
-                "
-              >
-                {section.items.map((id) => (
-                  <div key={id} className="flex-shrink-0">
-                    <ProductLoader id={id} openSideBar={openSideBar} addToCart={addToCart} />
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
+
+      {/* Products Section and category sidebar section */}
+<div className="flex  gap-4">
+   <div 
+  className="
+    flex flex-col gap-4
+    w-1/4                
+    bg-white dark:bg-gray-900
+    p-4 rounded-2xl border border-gray-100 dark:border-gray-800
+  "
+>
+  
+  <div className="flex flex-row items-center gap-2 ">
+    <div className='text-yellow-500'>
+      <HiAdjustments size={22} />
+    </div>
+    <div className='text-[9px] font-serif font-bold tracking-widest uppercase text-gray-900 dark:text-yellow-400 hover:text-yellow-500 transition duration-300 cursor-pointer'>
+      Category
+    </div>
+  </div>
+
+  <div className='grid grid-cols-2 gap-2'>
+    {
+      products.map((product)=>(
+        <div 
+          className='bg-[#f4f4f4] dark:bg-gray-800/50 text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-tight p-2 rounded-lg text-center hover:bg-yellow-500 hover:text-black dark:hover:text-black transition-all duration-300 cursor-pointer border border-transparent hover:border-yellow-400' 
+          key={product.id}
+          onClick={()=>clickedCategory(product.brand)}
+        >
+          {product.brand}   
         </div>
+      ))
+    }
+  </div>
+</div>
+{/*Category side bar finish here */}
+
+<div className='grid grid-cols-2 lg:grid-cols-4 sm:grid-cols-2 md:grid-cols-3 '>
+           {
+        filtered.length>0? filtered.map((product)=>(
+          <ProductCard addToCart={addToCart} openSideBar={openSideBar} product={product}/>
+         ) ) : products.map((product)=>(
+          <ProductCard addToCart={addToCart} openSideBar={openSideBar} product={product}/>
+         ) )
+      }
+
       </div>
+
+
+      </div>
+      
+     
 
       {/* Our Brands Section */}
       <div className=' flex flex-col items-center justify-center p-2'>
         <div className="mb-4 text-xl font-serif font-bold tracking-widest uppercase text-yellow-400">
           Our Brand
         </div>
-            <div>
-          <div classname="m-2"><img src="/logo1.png" alt="Logo 1" className="w-32 h-auto" /></div>
-          <div classname="m-2"><img src="/logo2.png" alt="Logo 2" className="w-32 h-auto" /></div>
-          <div classname="m-2"><img src="/logo3.png" alt="Logo 3" className="w-32 h-auto" /></div>
-          <div classname="m-2"><img src="/logo4.png" alt="Logo 4" className="w-32 h-auto" /></div>
-          <div classname="m-2"><img src="/logo5.png" alt="Logo 5" className="w-32 h-auto" /></div>
+        <div className='flex lg:flex-row flex-col '>
+
+          <div className="m-2"><img src="/logo1.png" alt="Logo 1" className="w-32 h-auto" /></div>
+          <div className="m-2"><img src="/logo2.png" alt="Logo 2" className="w-32 h-auto" /></div>
+          <div className="m-2"><img src="/logo3.png" alt="Logo 3" className="w-32 h-auto" /></div>
+          <div className="m-2"><img src="/logo4.png" alt="Logo 4" className="w-32 h-auto" /></div>
+          <div className="m-2"><img src="/logo5.png" alt="Logo 5" className="w-32 h-auto" /></div>
         </div>
       </div>
     
