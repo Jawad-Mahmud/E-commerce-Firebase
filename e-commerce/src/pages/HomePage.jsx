@@ -25,7 +25,7 @@ export const HomePage = () => {
   const { products } = useGetProducts();
   const [showSideBar, setShowSideBar] = useState(false);
   const [profile, setProfile] = useState(null);
-  const[brand,setBrand] = useState([])
+  const[eachBrand,setEachBrand] = useState([])
   useEffect(() => {
     const loadProfile = async () => {
       if (!user) return;
@@ -42,12 +42,24 @@ export const HomePage = () => {
     return[...prev,brand]
   })
  }
- 
+ useEffect(() => {
+  const getEachBrand = ()=>{
+  const brands = products?.map((product)=>product.brand.toUpperCase())
+   const uniqueBrands = [...new Set(brands)]
+   console.log(" unique brand",uniqueBrands);
+   console.log("get product for brand",products)
+   setEachBrand(uniqueBrands)
 
-  console.log("this is profile", profile);
+ }
+ getEachBrand();
+ }, [products])
+   console.log("this products", products);
+
+
+  { /*console.log("this is profile", profile);
   console.log("this products", products);
   console.log("this is user", user);
-  console.log("h", homeProducts);
+  console.log("h", homeProducts);*/}
 
   const closeSideBar = () => setShowSideBar(false);
   const openSideBar = () => setShowSideBar(true);
@@ -85,14 +97,15 @@ export const HomePage = () => {
   </div>
 
   <div className='grid grid-cols-2 gap-2'>
-    {
-      products.map((product)=>(
-        <div 
+    { 
+      eachBrand.map((brand)=>(
+        
+        <div key={brand}
           className='bg-[#f4f4f4] dark:bg-gray-800/50 text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-tight p-2 rounded-lg text-center hover:bg-yellow-500 hover:text-black dark:hover:text-black transition-all duration-300 cursor-pointer border border-transparent hover:border-yellow-400' 
-          key={product.id}
-          onClick={()=>clickedCategory(product.brand)}
+          
+          onClick={()=>clickedCategory(brand)}
         >
-          {product.brand}   
+          {brand}   
         </div>
       ))
     }
