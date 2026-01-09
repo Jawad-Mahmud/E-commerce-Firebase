@@ -2,59 +2,75 @@ import http from "http";
 import Stripe from "stripe";
 import 'dotenv/config';
 
-const stripe = new Stripe("sk_test_XXXXXX"); // SECRET KEY
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || "sk_test_XXXXXX"); // Better: use env var
 
 const server = http.createServer(async (req, res) => {
-  // Allow CORS (necessary for React)
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  // CORS headers
+  res.setHeader("Access-Control-Allow-Origin", "*"); // Change to your frontend URL in production
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
 
+  // Handle preflight
   if (req.method === "OPTIONS") {
-    res.writeHead(200);
+    res.writeHead(204);
     res.end();
     return;
   }
 
-  // Handle Stripe checkout session creation
+  // Only allow POST to our endpoint
   if (req.url === "/create-checkout-session" && req.method === "POST") {
     try {
+      // Collect request body
       let body = "";
-      req.on("data", chunk => (body += chunk));
-      req.on("end", async () => {
-        const session = await stripe.checkout.sessions.create({
-          mode: "payment",
-          payment_method_types: ["card"],
-          line_items: [
-            {
-              price_data: {
-                currency: "usd",
-                product_data: { name: "Your Product" },
-                unit_amount: 2000,
-              },
-              quantity: 1,
+      for await (const chunk of req) {
+        body += chunk;
+      }
+
+      const params = body ? JSON.parse(body) : {}; // In case you send items from frontend later
+
+      // You can make this dynamic later based on params
+      const line_items = [
+        {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: "Your Product Name", // Make dynamic later
             },
-          ],
-          success_url: "http://localhost:5173/success",
-          cancel_url: "http://localhost:5173/cancel",
-        });
+            unit_amount: 2000, // $20.00
+          },
+          quantity: 1,
+        },
+      ];
 
-        res.writeHead(200, { "Content-Type": "application/json" });
-        res.end(JSON.stringify({ id: session.id }));
+      const session = await stripe.checkout.sessions.create({
+        mode: "payment",
+        payment_method_types: ["card"],
+        line_items,
+        success_url: "http://localhost:5173/success?session_id={CHECKOUT_SESSION_ID}", // Optional: pass session ID
+        cancel_url: "http://localhost:5173/cancel",
       });
-    } catch (error) {
-      res.writeHead(500);
-      res.end("Error creating session");
-    }
 
+      res.writeHead(200, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ id: session.id }));
+    } catch (error) {
+      console.error("Stripe error:", error); // Log for debugging
+      res.writeHead(500, { "Content-Type": "application/json" });
+      res.end(
+        JSON.stringify({
+          error: "Failed to create checkout session",
+          message: error.message,
+        })
+      );
+    }
     return;
   }
 
-  // Default fallback
-  res.writeHead(404);
-  res.end("Not found");
+  // 404 for everything else
+  res.writeHead(404, { "Content-Type": "text/plain" });
+  res.end("Not Found");
 });
 
-server.listen(5000, () => {
-  console.log("Server running on 5000");
+const PORT = 5000;
+server.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
 });
