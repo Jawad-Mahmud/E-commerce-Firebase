@@ -2,6 +2,8 @@ import React from "react";
 
 export const CartSidebar = ({ showSidebar, cartedItems, cartedNumber, removeFromCart, closeSideBar, totalCartedPrice }) => {
     if (!showSidebar) return null;
+ console.log("this is carted",cartedItems);
+    console.log("carted number",cartedNumber)
 
     // A dark overlay background for a more sophisticated look (optional but recommended)
     const Overlay = () => (

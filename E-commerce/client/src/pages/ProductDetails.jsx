@@ -52,10 +52,13 @@ export const ProductDetails = () => {
                                  hover:bg-yellow-600 transition-colors duration-200 uppercase text-xs tracking-widest">
                 Add to cart
               </button>
+              <Link to="/checkout">
               <button className="bg-gray-900 text-white font-bold w-44 h-12 rounded-xl shadow-md 
                                  hover:bg-gray-800 transition-colors duration-200 uppercase text-xs tracking-widest">
                 Buy Now
               </button>
+              </Link>
+              
             </div>
 
             {/* Product Features - Icons switched to Yellow */}

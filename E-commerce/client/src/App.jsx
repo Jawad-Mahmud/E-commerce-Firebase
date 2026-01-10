@@ -14,6 +14,7 @@ import { ProtectAdminRoute } from './routes/ProtectAdminRoute'
 import { UserProfile } from './pages/UserProfile'
 import { UserActivity } from './pages/AdminPanel/UserActivity'
 import { AdminAddHomeSection } from './pages/AdminPanel/AdminAddHomeSection'
+import { Checkout } from './pages/Checkout'
 export const App = () => {
   return (
     <>
@@ -63,6 +64,7 @@ export const App = () => {
 
 
 
+     <Route path = "/checkout" element = {<Checkout/>}/>
 
       <Route path = "/profile/:id" element = {<UserProfile/>}/>
       <Route path = "/login" element = {<LoginPage/>}/>
