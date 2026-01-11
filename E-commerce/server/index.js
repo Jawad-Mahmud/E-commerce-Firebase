@@ -16,6 +16,8 @@ const server = http.createServer(async (req, res) => {
     res.end();
     return;
   }
+  console.log('Stripe key:', process.env.STRIPE_SECRET_KEY);
+
 
   // Only allow POST to our endpoint
   if (req.url === "/create-checkout-session" && req.method === "POST") {

@@ -11,12 +11,8 @@ export const Checkout = () => {
   // const { cartItems, totalAmount } = useCart(); // Replace with your real cart data
 
   // Temporary mock data (replace with your real cart context/state)
-  const mockCartItems = [
-    { id: 1, name: 'Classic Chronograph', price: 2499, quantity: 1, image: 'watch1.jpg' },
-    { id: 2, name: 'Elegance Automatic', price: 1799, quantity: 2, image: 'watch2.jpg' },
-  ];
+  
 console.log(cartedItems);
-  const totalAmount = mockCartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handlePayment = async () => {
@@ -117,7 +113,6 @@ console.log(cartedItems);
 
                 <button
                   onClick={handlePayment}
-                  disabled={isProcessing || mockCartItems.length === 0}
                   className={`
                     w-full py-5 px-8 rounded-md font-semibold text-lg tracking-wider uppercase
                     transition-all duration-300

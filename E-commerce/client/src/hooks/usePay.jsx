@@ -1,4 +1,4 @@
-// usePay.js
+
 import { getStripe } from '../Payment/getStripe';
 
 export const usePay = () => {
