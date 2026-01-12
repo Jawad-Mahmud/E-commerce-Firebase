@@ -17,15 +17,14 @@ export const ProductDetails = () => {
     }
     fetchProduct();
   }, [id])
-
+console.log(product)
   return (
     <Layout>
       {product && (
         <div className="flex flex-col items-center justify-start min-h-screen w-full px-4 
                         lg:flex-row lg:items-start lg:justify-center lg:space-x-48 lg:px-24 lg:pt-12 bg-white">
 
-          {/* Product Image - Matching Homepage Card Style */}
-{/* Product Image */}
+       
 <div className="mt-8 lg:mt-0">
   <img
     src={product.image}
@@ -52,7 +51,8 @@ export const ProductDetails = () => {
                                  hover:bg-yellow-600 transition-colors duration-200 uppercase text-xs tracking-widest">
                 Add to cart
               </button>
-              <Link to="/checkout">
+              <Link 
+             to={`/checkout-product/${product.id}`}>
               <button className="bg-gray-900 text-white font-bold w-44 h-12 rounded-xl shadow-md 
                                  hover:bg-gray-800 transition-colors duration-200 uppercase text-xs tracking-widest">
                 Buy Now
