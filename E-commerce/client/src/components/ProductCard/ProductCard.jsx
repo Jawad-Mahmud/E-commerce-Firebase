@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { FiPlus, FiEye } from 'react-icons/fi';
 
 export const ProductCard = ({ product, openSideBar, addToCart }) => {
+  console.log(product.id)
   return (
  
 <div className="group w-full max-w-[160px] sm:max-w-[190px] lg:max-w-[170px] mx-6 bg-white dark:bg-transparent flex flex-col transition-all duration-300 hover:shadow-amber-400">

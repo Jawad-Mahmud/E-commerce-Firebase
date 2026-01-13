@@ -8,6 +8,7 @@ import { FaShippingFast, FaShieldAlt, FaBoxOpen, FaMoneyBillWave, FaInfoCircle }
 export const ProductDetails = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
+console.log("id",id)
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -17,7 +18,6 @@ export const ProductDetails = () => {
     }
     fetchProduct();
   }, [id])
-console.log(product)
   return (
     <Layout>
       {product && (
@@ -52,7 +52,7 @@ console.log(product)
                 Add to cart
               </button>
               <Link 
-             to={`/checkout-product/${product.id}`}>
+             to={`/checkout-product/${id}`}>
               <button className="bg-gray-900 text-white font-bold w-44 h-12 rounded-xl shadow-md 
                                  hover:bg-gray-800 transition-colors duration-200 uppercase text-xs tracking-widest">
                 Buy Now

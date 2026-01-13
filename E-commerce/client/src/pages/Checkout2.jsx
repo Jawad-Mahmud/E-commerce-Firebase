@@ -6,20 +6,14 @@ import { usePay } from '../hooks/usePay'; // Adjust path to your usePay hook
 // import { useCart } from '../context/CartContext'; // Uncomment when you have cart context
 import { useCart } from '../context/CartProvider';
 import { useProductId } from '../hooks/useProductId';
-import { useEffect } from 'react';
+
 export const Checkout2 = () => {
-      const { id } = useParams();
-     useEffect(() => {
-         const fetchProduct = async () => {
-           const docRef = doc(db, "watches", id);
-           const docSnap = await getDoc(docRef);
-           if (docSnap.exists()) setProduct(docSnap.data())
-         }
-         fetchProduct();
-       }, [id])
-      
-      
-console.log("id",id)
+    
+  
+  
+  const { id } = useParams();
+  const {individual} = useProductId(id);
+
   const {cartedItems,totalCartedPrice} = useCart();
   const { handleCheckout } = usePay();
   // const { cartItems, totalAmount } = useCart(); // Replace with your real cart data
@@ -46,11 +40,11 @@ console.log(cartedItems);
         {/* Back Button */}
         <div className="mb-12">
           <Link
-            to="/cart"
+             to={`/product/${id}`}
             className="inline-flex items-center text-gray-400 hover:text-yellow-400 transition duration-300"
           >
             <FaArrowLeft className="mr-2" />
-            Back to Cart
+            Back to Product
           </Link>
         </div>
 
@@ -68,30 +62,29 @@ console.log(cartedItems);
               </h2>
 
               <div className="space-y-6">
-                {cartedItems.map((item) => (
-                  <div
-                    key={item.id}
+                 <div
                     className="flex items-center justify-between py-4 border-b border-gray-800 last:border-b-0"
                   >
                     <div className="flex items-center">
                       {/* Product Image Placeholder */}
                       <div className="w-20 h-20 bg-gray-800 rounded-md mr-4 flex items-center justify-center text-gray-500 text-xs">
-                        <img src={item.image} alt={item.name} />
+                        <img src={individual?.image} alt={individual?.name} />
                       </div>
                       <div>
-                        <h3 className="font-medium">{item.name}</h3>
-                        <p className="text-gray-400 text-sm">Qty: {item.quantity}</p>
+                        <h3 className="font-medium">{individual?.name}</h3>
+                        <p className="text-gray-400 text-sm">Qty: {individual?.quantity}</p>
                       </div>
                     </div>
-                    <p className="font-medium">${item.price}</p>
+                    <p className="font-medium">${individual?.price}</p>
                   </div>
-                ))}
+                 
+              
               </div>
 
               <div className="mt-8 pt-6 border-t border-gray-800">
                <div className="flex justify-between text-lg mb-3">
                   <span>Subtotal</span>
-                  <span className="text-green-400">${totalCartedPrice()}</span>
+                  <span className="text-green-400">${individual?.price}</span>
                 </div>
                 <div className="flex justify-between text-lg mb-3">
                   <span>Shipping</span>
@@ -99,7 +92,7 @@ console.log(cartedItems);
                 </div>
                 <div className="flex justify-between text-2xl font-bold mt-6 text-yellow-400">
                   <span>Total</span>
-                  <span>${totalCartedPrice()}</span>
+                  <span>${individual?.price}</span>
                 </div>
               </div>
             </div>
