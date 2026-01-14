@@ -72,7 +72,6 @@ export const HomePage = () => {
       <div className="mt-2">
         <SearchBar />
       </div>
-      <p>{profile?.name}</p>
 
 
 
