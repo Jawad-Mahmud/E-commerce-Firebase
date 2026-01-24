@@ -35,26 +35,37 @@ export const HomePage = () => {
     loadProfile();
   }, [user]);
  const clickedCategory = (brand) => {
-  setSelectCategory(prev =>{
-    if(prev.includes(brand)){
-      return prev.filter(item=>item!==brand)
+  const cleanBrand = brand.trim()
+  setSelectCategory(prev => {
+    if(prev.includes(cleanBrand)){
+      return prev.filter(item=>item!==cleanBrand)
     }
-    return[...prev,brand]
+    return [...prev, cleanBrand]
   })
- }
+}
+ 
+
+ 
+ 
+
  useEffect(() => {
   const getEachBrand = ()=>{
-  const brands = products?.map((product)=>product.brand.toUpperCase())
+  const brands = products?.map((product)=>product.brand.toUpperCase().trim())
    const uniqueBrands = [...new Set(brands)]
    console.log(" unique brand",uniqueBrands);
    console.log("get product for brand",products)
    setEachBrand(uniqueBrands)
-
+    
  }
  getEachBrand();
  }, [products])
    console.log("this products", products);
 
+   
+   console.log("f",filtered)
+   console.log("each brand",eachBrand)
+
+   
 
   { /*console.log("this is profile", profile);
   console.log("this products", products);
@@ -69,7 +80,7 @@ export const HomePage = () => {
       <div>
         <img src={HeroBG} />
       </div>
-      <div className="mt-2">
+      <div className="mt-3 mb-3">
         <SearchBar />
       </div>
 
@@ -96,18 +107,22 @@ export const HomePage = () => {
   </div>
 
   <div className='grid grid-cols-2 gap-2'>
-    { 
-      eachBrand.map((brand)=>(
-        
-        <div key={brand}
-          className='bg-[#f4f4f4] dark:bg-gray-800/50 text-[10px] font-bold text-gray-500 dark:text-gray-400 uppercase tracking-tight p-2 rounded-lg text-center hover:bg-yellow-500 hover:text-black dark:hover:text-black transition-all duration-300 cursor-pointer border border-transparent hover:border-yellow-400' 
-          
-          onClick={()=>clickedCategory(brand)}
-        >
-          {brand}   
-        </div>
-      ))
-    }
+   {eachBrand.map((brand) => (
+  <div
+    key={brand}
+    onClick={() => clickedCategory(brand)}
+    className={`text-[10px] font-bold uppercase tracking-tight p-2 rounded-lg text-center transition-all duration-300 cursor-pointer border 
+    ${
+      filtered.some(product => product.brand.toUpperCase().trim() === brand)
+        ? 'bg-yellow-400 text-white border-amber-900'
+        : 'bg-[#f4f4f4] dark:bg-gray-800/50 text-gray-500 dark:text-gray-400 border-transparent hover:bg-yellow-500 hover:text-black'
+    }`}
+  >
+    {brand}
+  </div>
+))}
+
+
   </div>
 </div>
 {/*Category side bar finish here */}

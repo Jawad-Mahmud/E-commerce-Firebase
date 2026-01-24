@@ -5,7 +5,7 @@ export const useGetCategory = () => {
     const [filtered, setFiltered] = useState([])
  const [selectCategory,setSelectCategory]=useState([])
 useEffect(() => {
-   const filtered = products.filter(item=> selectCategory.includes(item.brand.toUpperCase()))
+   const filtered = products.filter(item=> selectCategory.includes(item.brand.toUpperCase().trim()))
      setFiltered(filtered);
      console.log("filtered",filtered)
 }, [selectCategory,products])
