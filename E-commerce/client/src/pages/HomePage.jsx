@@ -16,6 +16,8 @@ import { useProductId } from '../hooks/useProductId'
 import { ProductLoader } from '../components/ProductLoader/ProductLoader'
 import { HiAdjustments } from "react-icons/hi";
 import { useGetCategory } from '../hooks/useGetCategory'
+import { motion } from 'framer-motion'
+
 export const HomePage = () => {
   const {filtered,setSelectCategory} = useGetCategory();
   const { individual } = useProductId();
@@ -26,6 +28,7 @@ export const HomePage = () => {
   const [showSideBar, setShowSideBar] = useState(false);
   const [profile, setProfile] = useState(null);
   const[eachBrand,setEachBrand] = useState([])
+  
   useEffect(() => {
     const loadProfile = async () => {
       if (!user) return;
@@ -40,6 +43,9 @@ export const HomePage = () => {
     if(prev.includes(cleanBrand)){
       return prev.filter(item=>item!==cleanBrand)
     }
+
+
+
     return [...prev, cleanBrand]
   })
 }
@@ -87,76 +93,117 @@ export const HomePage = () => {
 
 
       {/* Products Section and category sidebar section */}
-<div className="flex  gap-4">
-   <div 
-  className="
-    flex flex-col gap-4
-    w-1/4                
-    bg-white dark:bg-gray-900
-    p-4 rounded-2xl border border-gray-100 dark:border-gray-800
-  "
->
-  
-  <div className="flex flex-row items-center gap-2 ">
-    <div className='text-yellow-500'>
-      <HiAdjustments size={22} />
+<div className="flex gap-4">
+
+  {/* Category Sidebar */}
+  <div className="flex flex-col gap-4 w-1/4 bg-white p-4 rounded-2xl border border-gray-200 shadow-sm">
+    
+    <div className="flex items-center gap-2">
+      <div className="text-gray-900">
+        <HiAdjustments size={22} />
+      </div>
+      <div className="text-[10px] font-serif font-bold tracking-widest uppercase text-gray-900 hover:text-gray-900 transition duration-300 cursor-pointer">
+        Category
+      </div>
     </div>
-    <div className='text-[9px] font-serif font-bold tracking-widest uppercase text-gray-900 dark:text-yellow-400 hover:text-yellow-500 transition duration-300 cursor-pointer'>
-      Category
+
+    <div className="grid grid-cols-2 gap-2">
+      {eachBrand.map((brand) => (
+        <div
+          key={brand}
+          onClick={() => clickedCategory(brand)}
+          className={`text-[10px] font-bold uppercase tracking-tight p-2 rounded-lg text-center transition-all duration-300 cursor-pointer border
+            ${
+              filtered.some(product => product.brand.toUpperCase().trim() === brand)
+                ? 'bg-gray-900 text-white border-gray-900'
+                : 'bg-gray-100 text-gray-900 border-gray-200 hover:bg-gray-900 hover:text-white'
+            }`}
+        >
+          {brand}
+        </div>
+      ))}
     </div>
-  </div>
-
-  <div className='grid grid-cols-2 gap-2'>
-   {eachBrand.map((brand) => (
-  <div
-    key={brand}
-    onClick={() => clickedCategory(brand)}
-    className={`text-[10px] font-bold uppercase tracking-tight p-2 rounded-lg text-center transition-all duration-300 cursor-pointer border 
-    ${
-      filtered.some(product => product.brand.toUpperCase().trim() === brand)
-        ? 'bg-yellow-400 text-white border-amber-900'
-        : 'bg-[#f4f4f4] dark:bg-gray-800/50 text-gray-500 dark:text-gray-400 border-transparent hover:bg-yellow-500 hover:text-black'
-    }`}
-  >
-    {brand}
-  </div>
-))}
-
 
   </div>
+  {/* Category Sidebar ends */}
+
+  {/* Product Grid */}
+  <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 flex-1">
+    {(filtered.length > 0 ? filtered : products).map((product) => (
+      <ProductCard
+        key={product.id}
+        addToCart={addToCart}
+        openSideBar={openSideBar}
+        product={product}
+      />
+    ))}
+  </div>
+
 </div>
-{/*Category side bar finish here */}
-
-<div className='grid grid-cols-2 lg:grid-cols-4 sm:grid-cols-2 md:grid-cols-3 '>
-           {
-        filtered.length>0? filtered.map((product)=>(
-          <ProductCard addToCart={addToCart} openSideBar={openSideBar} product={product}/>
-         ) ) : products.map((product)=>(
-          <ProductCard addToCart={addToCart} openSideBar={openSideBar} product={product}/>
-         ) )
-      }
-
-      </div>
 
 
-      </div>
+
       
      
 
       {/* Our Brands Section */}
-      <div className=' flex flex-col items-center justify-center p-2'>
-        <div className="mb-4 text-xl font-serif font-bold tracking-widest uppercase text-yellow-400">
-          Our Brand
-        </div>
-        <div className='flex lg:flex-row flex-col '>
+<div className="w-full p-4">
 
-          <div className="m-2"><img src="/logo1.png" alt="Logo 1" className="w-32 h-auto" /></div>
-          <div className="m-2"><img src="/logo2.png" alt="Logo 2" className="w-32 h-auto" /></div>
-          <div className="m-2"><img src="/logo3.png" alt="Logo 3" className="w-32 h-auto" /></div>
-          <div className="m-2"><img src="/logo4.png" alt="Logo 4" className="w-32 h-auto" /></div>
-          <div className="m-2"><img src="/logo5.png" alt="Logo 5" className="w-32 h-auto" /></div>
+  <div className="mb-4 text-xl font-serif font-bold tracking-widest uppercase text-gray-900 text-center">
+    Our Brand
+  </div>
+
+  <div className="hidden lg:block overflow-hidden bg-white shadow-sm rounded-2xl">
+    <motion.div
+      className="flex w-[200%] items-center"
+      animate={{ x: ["0%", "-50%"] }}
+      transition={{
+        x: {
+          repeat: Infinity,
+          repeatType: "loop",
+          duration: 25,
+          ease: "linear"
+        }
+      }}
+    >
+      {[ "/logo1.png", "/logo2.png", "/logo3.png", "/logo4.png", "/logo5.png" ].map((logo, index) => (
+        <div
+          key={index}
+          className="m-4 p-2 rounded-lg flex-shrink-0 transition-transform duration-300 hover:scale-105 hover:shadow-md"
+        >
+          <img src={logo} alt={`Logo ${index + 1}`} className="w-32 h-auto" />
         </div>
-      </div>
+      ))}
+
+      {[ "/logo1.png", "/logo2.png", "/logo3.png", "/logo4.png", "/logo5.png" ].map((logo, index) => (
+        <div
+          key={"dup" + index}
+          className="m-4 p-2 rounded-lg flex-shrink-0 transition-transform duration-300 hover:scale-105 hover:shadow-md"
+        >
+          <img src={logo} alt={`Logo duplicate ${index + 1}`} className="w-32 h-auto" />
+        </div>
+      ))}
+    </motion.div>
+  </div>
+
+  {/* Mobile/Tablet fallback:  logos */}
+  <div className="flex lg:hidden flex-col items-center justify-center bg-white rounded-2xl shadow-sm p-4">
+    <div className="flex flex-col   sm:flex-row flex-wrap items-center justify-center">
+      {[ "/logo1.png", "/logo2.png", "/logo3.png", "/logo4.png", "/logo5.png" ].map((logo, index) => (
+        <div
+          key={index}
+          className="m-2 p-2 rounded-lg transition-transform duration-300 hover:scale-105 hover:shadow-md"
+        >
+          <img src={logo} alt={`Logo ${index + 1}`} className="w-32 h-auto" />
+        </div>
+      ))}
+    </div>
+  </div>
+
+</div>
+
+
+
     
 
       {/* Cart Sidebar */}
