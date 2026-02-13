@@ -83,9 +83,7 @@ export const HomePage = () => {
 
   return (
     <Layout>
-      <div>
-        <img src={HeroBG} />
-      </div>
+     
       <div className="mt-3 mb-3">
         <SearchBar />
       </div>
