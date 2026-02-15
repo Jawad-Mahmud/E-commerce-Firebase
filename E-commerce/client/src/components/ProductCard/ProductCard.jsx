@@ -5,6 +5,7 @@ import { FiPlus, FiEye } from 'react-icons/fi';
 export const ProductCard = ({ product, openSideBar, addToCart }) => {
   return (
     <div className="group w-full max-w-[170px] sm:max-w-[190px] lg:max-w-[170px] mx-6 bg-white flex flex-col border border-gray-200 rounded-2xl transition-shadow duration-300 hover:shadow-lg">
+
       
       {/* Image */}
       <div className="relative aspect-[4/5] overflow-hidden bg-gray-100 border border-gray-200 rounded-2xl">
@@ -55,3 +56,4 @@ export const ProductCard = ({ product, openSideBar, addToCart }) => {
     </div>
   );
 };
+

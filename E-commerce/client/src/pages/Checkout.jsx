@@ -2,17 +2,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FaArrowLeft, FaShoppingCart, FaCreditCard } from 'react-icons/fa';
-import { usePay } from '../hooks/usePay'; // Adjust path to your usePay hook
-// import { useCart } from '../context/CartContext'; // Uncomment when you have cart context
+import { usePay } from '../hooks/usePay';
 import { useCart } from '../context/CartProvider';
-export const Checkout = () => {
-  const {cartedItems,totalCartedPrice} = useCart();
-  const { handleCheckout } = usePay();
-  // const { cartItems, totalAmount } = useCart(); // Replace with your real cart data
 
-  // Temporary mock data (replace with your real cart context/state)
-  
-console.log(cartedItems);
+export const Checkout = () => {
+  const { cartedItems, totalCartedPrice } = useCart();
+  const { handleCheckout } = usePay();
+
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handlePayment = async () => {
@@ -28,13 +24,14 @@ console.log(cartedItems);
   };
 
   return (
-    <div className="min-h-screen bg-white text-white pt-24 pb-16">
+    <div className="min-h-screen bg-white pt-24 pb-16 text-gray-900">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
         {/* Back Button */}
         <div className="mb-12">
           <Link
             to="/cart"
-            className="inline-flex items-center text-gray-400 hover:text-yellow-400 transition duration-300"
+            className="inline-flex items-center text-gray-500 hover:text-gray-900 transition"
           >
             <FaArrowLeft className="mr-2" />
             Back to Cart
@@ -42,15 +39,17 @@ console.log(cartedItems);
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
+
           {/* Left: Order Summary */}
           <div className="lg:col-span-3">
-            <h1 className="text-4xl font-serif font-bold tracking-wider text-yellow-400 mb-10">
+            <h1 className="text-4xl font-serif font-bold tracking-wider mb-10">
               Checkout
             </h1>
 
-            <div className="bg-gray-900 rounded-lg shadow-xl p-8 border border-gray-800">
-              <h2 className="text-2xl font-medium mb-6 flex items-center">
-                <FaShoppingCart className="mr-3 text-yellow-400" />
+            <div className="bg-white rounded-2xl shadow-sm p-8 border border-gray-200">
+
+              <h2 className="text-2xl font-medium mb-6 flex items-center text-gray-900">
+                <FaShoppingCart className="mr-3 text-gray-700" />
                 Order Summary
               </h2>
 
@@ -58,33 +57,42 @@ console.log(cartedItems);
                 {cartedItems.map((item) => (
                   <div
                     key={item.id}
-                    className="flex items-center justify-between py-4 border-b border-gray-800 last:border-b-0"
+                    className="flex items-center justify-between py-4 border-b border-gray-200 last:border-b-0"
                   >
                     <div className="flex items-center">
-                      {/* Product Image Placeholder */}
-                      <div className="w-20 h-20 bg-gray-800 rounded-md mr-4 flex items-center justify-center text-gray-500 text-xs">
-                        <img src={item.image} alt={item.name} />
+                      <div className="w-20 h-20 bg-gray-100 rounded-lg mr-4 overflow-hidden">
+                        <img
+                          src={item.image}
+                          alt={item.name}
+                          className="w-full h-full object-cover"
+                        />
                       </div>
+
                       <div>
                         <h3 className="font-medium">{item.name}</h3>
-                        <p className="text-gray-400 text-sm">Qty: {item.quantity}</p>
+                        <p className="text-gray-500 text-sm">
+                          Qty: {item.quantity}
+                        </p>
                       </div>
                     </div>
-                    <p className="font-medium">${item.price}</p>
+
+                    <p className="font-semibold">${item.price}</p>
                   </div>
                 ))}
               </div>
 
-              <div className="mt-8 pt-6 border-t border-gray-800">
-               <div className="flex justify-between text-lg mb-3">
+              <div className="mt-8 pt-6 border-t border-gray-200">
+                <div className="flex justify-between text-lg mb-3">
                   <span>Subtotal</span>
-                  <span className="text-green-400">${totalCartedPrice()}</span>
+                  <span className="font-medium">${totalCartedPrice()}</span>
                 </div>
+
                 <div className="flex justify-between text-lg mb-3">
                   <span>Shipping</span>
-                  <span className="text-green-400">Free</span>
+                  <span className="font-medium">Free</span>
                 </div>
-                <div className="flex justify-between text-2xl font-bold mt-6 text-yellow-400">
+
+                <div className="flex justify-between text-2xl font-bold mt-6">
                   <span>Total</span>
                   <span>${totalCartedPrice()}</span>
                 </div>
@@ -94,19 +102,20 @@ console.log(cartedItems);
 
           {/* Right: Payment Section */}
           <div className="lg:col-span-2">
-            <div className="bg-gray-900 rounded-lg shadow-xl p-8 border border-gray-800 sticky top-24">
+            <div className="bg-white rounded-2xl shadow-sm p-8 border border-gray-200 sticky top-24">
+
               <h2 className="text-2xl font-medium mb-8 flex items-center">
-                <FaCreditCard className="mr-3 text-yellow-400" />
+                <FaCreditCard className="mr-3 text-gray-700" />
                 Payment
               </h2>
 
               <div className="space-y-6">
-                {/* You can add shipping info, email, etc. here later */}
+
                 <div>
-                  <p className="text-gray-300 mb-4">
+                  <p className="text-gray-600 mb-4">
                     You'll be securely redirected to Stripe to complete your payment.
                   </p>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-400">
                     We accept all major credit/debit cards.
                   </p>
                 </div>
@@ -114,19 +123,19 @@ console.log(cartedItems);
                 <button
                   onClick={handlePayment}
                   className={`
-                    w-full py-5 px-8 rounded-md font-semibold text-lg tracking-wider uppercase
+                    w-full py-5 px-8 rounded-xl font-semibold text-lg tracking-wider uppercase
                     transition-all duration-300
                     ${
                       isProcessing
-                        ? 'bg-gray-700 cursor-not-allowed'
-                        : 'bg-yellow-400 text-gray-900 hover:bg-yellow-300 shadow-lg shadow-yellow-500/20'
+                        ? 'bg-gray-300 cursor-not-allowed'
+                        : 'bg-gray-900 text-white hover:bg-gray-800 shadow-md'
                     }
                   `}
                 >
                   {isProcessing ? (
                     <span className="flex items-center justify-center">
                       <svg
-                        className="animate-spin -ml-1 mr-3 h-5 w-5 text-gray-900"
+                        className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
                         viewBox="0 0 24 24"
@@ -152,15 +161,16 @@ console.log(cartedItems);
                   )}
                 </button>
 
-                <p className="text-center text-sm text-gray-500 mt-6">
+                <p className="text-center text-sm text-gray-400 mt-6">
                   Secure payment powered by Stripe
                 </p>
+
               </div>
             </div>
           </div>
+
         </div>
       </div>
     </div>
   );
 };
-
