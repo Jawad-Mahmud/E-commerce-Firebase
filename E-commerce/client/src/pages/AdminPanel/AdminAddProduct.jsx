@@ -1,162 +1,175 @@
 import React, { useState } from 'react';
 import { useAddProducts } from '../../hooks/useAddProducts';
-import { FiPlusSquare, FiRefreshCw, FiImage, FiTag, FiType, FiHash, FiAlignLeft, FiDollarSign } from 'react-icons/fi';
+import { Link } from 'react-router-dom';
+import { FiPlusSquare, FiRefreshCw, FiImage, FiTag, FiType, FiHash, FiAlignLeft, FiDollarSign, FiArrowLeft } from 'react-icons/fi';
+import { HiAdjustments } from 'react-icons/hi';
+
 export const AdminAddProduct = () => {
   const { addProducts } = useAddProducts();
-  
+
   const [image, setImage] = useState("");
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [brand, setBrand] = useState("");
   const [description, setDescription] = useState("");
   const [quantity, setQuantity] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+
+  const clearAll = () => {
+    setBrand(""); setName(""); setPrice("");
+    setDescription(""); setQuantity(""); setImage("");
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
     addProducts({ image, name, price, brand, description, quantity });
-    alert("done");
-    setBrand("");
-    setName("");
-    setPrice("");
-    setDescription("");
-    setQuantity("");
-    setImage("");
+    setSubmitted(true);
+    clearAll();
+    setTimeout(() => setSubmitted(false), 3000);
   };
 
-  const clearData = () => {
-    setBrand("");
-    setName("");
-    setPrice("");
-    setDescription("");
-    setQuantity("");
-    setImage("");
-    alert("cleared");
-  };
+  const fields = [
+    {
+      label: 'Product Name', icon: FiType, col: 1,
+      input: <input type="text" placeholder="e.g. Casio G-Shock Gold" value={name}
+        onChange={e => setName(e.target.value)} required
+        className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-900 focus:outline-none focus:border-gray-900 transition placeholder-gray-300" />
+    },
+    {
+      label: 'Price (USD)', icon: FiDollarSign, col: 1,
+      input: <input type="number" placeholder="0.00" value={price}
+        onChange={e => setPrice(e.target.value)} required
+        className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-900 focus:outline-none focus:border-gray-900 transition placeholder-gray-300" />
+    },
+    {
+      label: 'Brand / Category', icon: FiTag, col: 1,
+      input: <input type="text" placeholder="e.g. Naviforce" value={brand}
+        onChange={e => setBrand(e.target.value)} required
+        className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-900 focus:outline-none focus:border-gray-900 transition placeholder-gray-300" />
+    },
+    {
+      label: 'Stock Quantity', icon: FiHash, col: 1,
+      input: <input type="number" placeholder="Available units" value={quantity}
+        onChange={e => setQuantity(e.target.value)} required
+        className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-900 focus:outline-none focus:border-gray-900 transition placeholder-gray-300" />
+    },
+  ];
 
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center p-6">
-      <div className="w-full max-w-2xl bg-gray-900 border border-gray-800 shadow-2xl rounded-sm p-8">
-        
-        {/* Header */}
-        <div className="text-center mb-10">
-          <h1 className="text-3xl font-serif font-bold text-white tracking-tight flex items-center justify-center gap-3">
-            <FiPlusSquare className="text-yellow-400" /> Add New Product
-          </h1>
-          <p className="text-gray-500 text-xs uppercase tracking-widest mt-2">Expand Your Luxury Collection</p>
+    <div className="min-h-screen bg-gray-50 py-10 px-4 sm:px-8">
+      <div className="max-w-3xl mx-auto space-y-6">
+
+        {/* ── Page Header ── */}
+        <div className="flex items-center justify-between">
+          <div>
+            <p className="text-[10px] font-bold tracking-widest uppercase text-gray-400 mb-1">
+              Timeless Co. — Admin
+            </p>
+            <h1 className="text-3xl font-serif font-bold text-gray-900">Add New Watch</h1>
+          </div>
+          <Link
+            to="/admin"
+            className="inline-flex items-center gap-2 text-[11px] font-bold tracking-widest uppercase text-gray-400 hover:text-gray-900 border border-gray-200 hover:border-gray-900 px-4 py-2 rounded-lg transition"
+          >
+            <FiArrowLeft size={13} /> Back
+          </Link>
         </div>
 
-        <form className="space-y-6" onSubmit={onSubmit}>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Product Name */}
+        {/* ── Success Banner ── */}
+        {submitted && (
+          <div className="bg-green-50 border border-green-200 rounded-xl px-5 py-3 flex items-center gap-3">
+            <FiPlusSquare className="text-green-500 flex-shrink-0" size={16} />
+            <p className="text-[11px] font-bold tracking-widest uppercase text-green-700">
+              Product added to inventory successfully
+            </p>
+          </div>
+        )}
+
+        {/* ── Form Card ── */}
+        <div className="bg-white border border-gray-200 rounded-2xl shadow-sm overflow-hidden">
+
+          {/* Card Header */}
+          <div className="flex items-center gap-2 px-6 py-5 border-b border-gray-100 bg-gray-50">
+            <HiAdjustments className="text-gray-400" size={18} />
+            <p className="text-[10px] font-bold tracking-widest uppercase text-gray-400">
+              Product Information
+            </p>
+          </div>
+
+          <form onSubmit={onSubmit} className="p-6 sm:p-8 space-y-6">
+
+            {/* 2-col grid fields */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              {fields.map(({ label, icon: Icon, input }) => (
+                <div key={label}>
+                  <label className="flex items-center gap-1.5 text-[10px] font-bold tracking-widest uppercase text-gray-400 mb-2">
+                    <Icon size={12} />
+                    {label}
+                  </label>
+                  {input}
+                </div>
+              ))}
+            </div>
+
+            {/* Image URL — full width */}
             <div>
-              <label className="flex items-center text-gray-400 mb-2 text-xs uppercase tracking-wider font-semibold">
-                <FiType className="mr-2 text-yellow-400" /> Product Name
+              <label className="flex items-center gap-1.5 text-[10px] font-bold tracking-widest uppercase text-gray-400 mb-2">
+                <FiImage size={12} /> Image URL
               </label>
               <input
                 type="text"
-                placeholder="e.g. Casio G-Shock Gold"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                className="w-full bg-gray-800 border border-gray-700 text-white p-3 rounded-sm focus:outline-none focus:border-yellow-400 transition-colors"
+                value={image}
+                onChange={e => setImage(e.target.value)}
+                placeholder="https://example.com/watch-image.jpg"
                 required
+                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-900 focus:outline-none focus:border-gray-900 transition placeholder-gray-300"
               />
+              {/* Image Preview */}
+              {image && (
+                <div className="mt-3 w-24 h-24 rounded-lg border border-gray-200 overflow-hidden">
+                  <img src={image} alt="Preview" className="w-full h-full object-cover" onError={e => e.target.style.display = 'none'} />
+                </div>
+              )}
             </div>
 
-            {/* Price */}
+            {/* Description — full width */}
             <div>
-              <label className="flex items-center text-gray-400 mb-2 text-xs uppercase tracking-wider font-semibold">
-                <FiDollarSign className="mr-2 text-yellow-400" /> Price (USD)
+              <label className="flex items-center gap-1.5 text-[10px] font-bold tracking-widest uppercase text-gray-400 mb-2">
+                <FiAlignLeft size={12} /> Description
               </label>
-              <input
-                type="number"
-                value={price}
-                onChange={(e) => setPrice(e.target.value)}
-                placeholder="0.00"
-                className="w-full bg-gray-800 border border-gray-700 text-white p-3 rounded-sm focus:outline-none focus:border-yellow-400 transition-colors"
-                required
-              />
-            </div>
-          </div>
-
-          {/* Description */}
-          <div>
-            <label className="flex items-center text-gray-400 mb-2 text-xs uppercase tracking-wider font-semibold">
-              <FiAlignLeft className="mr-2 text-yellow-400" /> Description
-            </label>
-            <textarea
-              placeholder="Describe the craftsmanship and features..."
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              className="w-full bg-gray-800 border border-gray-700 text-white p-3 rounded-sm focus:outline-none focus:border-yellow-400 transition-colors h-28 resize-none"
-              
-            ></textarea>
-          </div>
-
-          {/* Image URL */}
-          <div>
-            <label className="flex items-center text-gray-400 mb-2 text-xs uppercase tracking-wider font-semibold">
-              <FiImage className="mr-2 text-yellow-400" /> Image URL
-            </label>
-            <input
-              type="text"
-              value={image}
-              onChange={(e) => setImage(e.target.value)}
-              placeholder="https://example.com/watch-image.jpg"
-              className="w-full bg-gray-800 border border-gray-700 text-white p-3 rounded-sm focus:outline-none focus:border-yellow-400 transition-colors"
-              required
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Category / Brand */}
-            <div>
-              <label className="flex items-center text-gray-400 mb-2 text-xs uppercase tracking-wider font-semibold">
-                <FiTag className="mr-2 text-yellow-400" /> Brand / Category
-              </label>
-              <input
-                type="text"
-                value={brand}
-                onChange={(e) => setBrand(e.target.value)}
-                placeholder="e.g. Naviforce"
-                className="w-full bg-gray-800 border border-gray-700 text-white p-3 rounded-sm focus:outline-none focus:border-yellow-400 transition-colors"
-                required
+              <textarea
+                placeholder="Describe the craftsmanship and features..."
+                value={description}
+                onChange={e => setDescription(e.target.value)}
+                rows={4}
+                className="w-full border border-gray-200 rounded-lg px-4 py-2.5 text-sm text-gray-900 focus:outline-none focus:border-gray-900 transition placeholder-gray-300 resize-none"
               />
             </div>
 
-            {/* Stock */}
-            <div>
-              <label className="flex items-center text-gray-400 mb-2 text-xs uppercase tracking-wider font-semibold">
-                <FiHash className="mr-2 text-yellow-400" /> Stock Quantity
-              </label>
-              <input
-                type="number"
-                placeholder="Available units"
-                value={quantity}
-                onChange={(e) => setQuantity(e.target.value)}
-                className="w-full bg-gray-800 border border-gray-700 text-white p-3 rounded-sm focus:outline-none focus:border-yellow-400 transition-colors"
-                required
-              />
-            </div>
-          </div>
+            {/* Divider */}
+            <div className="border-t border-gray-100" />
 
-          {/* Buttons */}
-          <div className="flex flex-col sm:flex-row justify-between gap-4 mt-10">
-            <button
-              type="submit"
-              className="flex-1 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-bold py-4 px-6 rounded-sm transition-all uppercase text-sm tracking-widest shadow-xl flex items-center justify-center gap-2"
-            >
-              <FiPlusSquare size={18} /> Add to Inventory
-            </button>
-            <button
-              type="button"
-              className="flex-1 bg-transparent border border-gray-700 hover:border-red-500 text-gray-400 hover:text-red-500 font-bold py-4 px-6 rounded-sm transition-all uppercase text-sm tracking-widest flex items-center justify-center gap-2"
-              onClick={clearData}
-            >
-              <FiRefreshCw size={18} /> Clear Form
-            </button>
-          </div>
-        </form>
+            {/* Actions */}
+            <div className="flex flex-col sm:flex-row gap-3">
+              <button
+                type="submit"
+                className="flex-1 inline-flex items-center justify-center gap-2 bg-gray-900 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg text-[11px] tracking-widest uppercase transition-all duration-300 shadow-sm"
+              >
+                <FiPlusSquare size={15} />
+                Add to Inventory
+              </button>
+              <button
+                type="button"
+                onClick={clearAll}
+                className="flex-1 inline-flex items-center justify-center gap-2 border border-gray-200 hover:border-red-300 text-gray-400 hover:text-red-500 hover:bg-red-50 font-bold py-3 px-6 rounded-lg text-[11px] tracking-widest uppercase transition-all duration-300"
+              >
+                <FiRefreshCw size={15} />
+                Clear Form
+              </button>
+            </div>
+
+          </form>
+        </div>
       </div>
     </div>
   );
