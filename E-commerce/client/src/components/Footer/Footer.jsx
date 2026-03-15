@@ -1,77 +1,118 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import { FaInstagram, FaFacebookF, FaTwitter } from 'react-icons/fa';
 
 export const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    // 1. Dark background to match the Navbar
-    <footer className="bg-gray-900 text-gray-300 border-t border-gray-800 pt-10 pb-6">
+    <footer className="bg-white border-t border-gray-200 pt-12 pb-6">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pb-8 border-b border-gray-700">
-          
-          {/* 1. Logo / Branding */}
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pb-10 border-b border-gray-100">
+
+          {/* Branding */}
           <div className="col-span-2 md:col-span-1">
-            <a href="/" className="text-3xl font-serif font-bold tracking-widest uppercase text-yellow-400">
+            <Link to="/" className="text-2xl font-serif font-bold tracking-wide text-gray-900">
               Timeless Co.
-            </a>
-            <p className="mt-4 text-sm text-gray-400">
+            </Link>
+            <p className="mt-3 text-sm text-gray-400 leading-relaxed">
               Curating the world's finest timepieces, delivered with guaranteed authenticity.
             </p>
-            {/* Social Icons */}
-            <div className="flex space-x-4 mt-4">
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-yellow-400 transition">
-                <FaInstagram size={20} />
-              </a>
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-yellow-400 transition">
-                <FaFacebookF size={20} />
-              </a>
-              <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-yellow-400 transition">
-                <FaTwitter size={20} />
-              </a>
+            <div className="flex gap-3 mt-5">
+              {[
+                { href: "https://instagram.com", icon: FaInstagram },
+                { href: "https://facebook.com", icon: FaFacebookF },
+                { href: "https://twitter.com", icon: FaTwitter },
+              ].map(({ href, icon: Icon }) => (
+                <a
+                  key={href}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-8 h-8 rounded-lg border border-gray-200 flex items-center justify-center text-gray-400 hover:text-gray-900 hover:border-gray-900 transition duration-300"
+                >
+                  <Icon size={14} />
+                </a>
+              ))}
             </div>
           </div>
 
-          {/* 2. Customer Service Links */}
+          {/* Customer Service */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-4">Customer Service</h3>
-            <ul className="space-y-3 text-sm">
-              <li><a href="/faq" className="hover:text-yellow-400 transition">FAQ</a></li>
-              <li><a href="/shipping" className="hover:text-yellow-400 transition">Shipping & Returns</a></li>
-              <li><a href="/warranty" className="hover:text-yellow-400 transition">Warranty</a></li>
-              <li><a href="/contact" className="hover:text-yellow-400 transition">Contact Us</a></li>
+            <p className="text-[10px] font-bold tracking-widest uppercase text-gray-400 mb-4">
+              Customer Service
+            </p>
+            <ul className="space-y-2.5">
+              {[
+                { label: 'FAQ', to: '/faq' },
+                { label: 'Shipping & Returns', to: '/shipping' },
+                { label: 'Warranty', to: '/warranty' },
+                { label: 'Contact Us', to: '/contact' },
+              ].map(({ label, to }) => (
+                <li key={to}>
+                  <Link to={to} className="text-sm text-gray-500 hover:text-gray-900 transition duration-200">
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
-          {/* 3. Shop Links */}
+          {/* Shop */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-4">Shop</h3>
-            <ul className="space-y-3 text-sm">
-              <li><a href="/products" className="hover:text-yellow-400 transition">Shop All</a></li>
-              <li><a href="/categories/mens" className="hover:text-yellow-400 transition">Men's Watches</a></li>
-              <li><a href="/categories/womens" className="hover:text-yellow-400 transition">Women's Watches</a></li>
-              <li><a href="/brands" className="hover:text-yellow-400 transition">Brands A-Z</a></li>
+            <p className="text-[10px] font-bold tracking-widest uppercase text-gray-400 mb-4">
+              Shop
+            </p>
+            <ul className="space-y-2.5">
+              {[
+                { label: 'Shop All', to: '/products' },
+                { label: "Men's Watches", to: '/categories/mens' },
+                { label: "Women's Watches", to: '/categories/womens' },
+                { label: 'Brands A–Z', to: '/brands' },
+              ].map(({ label, to }) => (
+                <li key={to}>
+                  <Link to={to} className="text-sm text-gray-500 hover:text-gray-900 transition duration-200">
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
-          
-          {/* 4. Legal & Company */}
+
+          {/* Company */}
           <div>
-            <h3 className="text-lg font-semibold text-white mb-4">Company</h3>
-            <ul className="space-y-3 text-sm">
-              <li><a href="/about" className="hover:text-yellow-400 transition">Our Story</a></li>
-              <li><a href="/careers" className="hover:text-yellow-400 transition">Careers</a></li>
-              <li><a href="/privacy" className="hover:text-yellow-400 transition">Privacy Policy</a></li>
-              <li><a href="/terms" className="hover:text-yellow-400 transition">Terms of Service</a></li>
+            <p className="text-[10px] font-bold tracking-widest uppercase text-gray-400 mb-4">
+              Company
+            </p>
+            <ul className="space-y-2.5">
+              {[
+                { label: 'Our Story', to: '/about' },
+                { label: 'Careers', to: '/careers' },
+                { label: 'Privacy Policy', to: '/privacy' },
+                { label: 'Terms of Service', to: '/terms' },
+              ].map(({ label, to }) => (
+                <li key={to}>
+                  <Link to={to} className="text-sm text-gray-500 hover:text-gray-900 transition duration-200">
+                    {label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
         </div>
-        
-        {/* Copyright */}
-        <div className="pt-6 text-center text-sm text-gray-500">
-          &copy; {currentYear} Timeless Co. All rights reserved. | Built with React and Firebase
+
+        {/* Bottom bar */}
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <p className="text-[10px] font-bold tracking-widest uppercase text-gray-400">
+            &copy; {currentYear} Timeless Co. All rights reserved.
+          </p>
+          <p className="text-[10px] font-bold tracking-widest uppercase text-gray-300">
+            Built with React &amp; Firebase
+          </p>
         </div>
+
       </div>
     </footer>
   );

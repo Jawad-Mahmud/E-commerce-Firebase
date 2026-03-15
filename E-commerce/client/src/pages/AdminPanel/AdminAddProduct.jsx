@@ -132,7 +132,6 @@ export const AdminAddProduct = () => {
               )}
             </div>
 
-            {/* Description — full width */}
             <div>
               <label className="flex items-center gap-1.5 text-[10px] font-bold tracking-widest uppercase text-gray-400 mb-2">
                 <FiAlignLeft size={12} /> Description
